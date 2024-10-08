@@ -1,0 +1,47 @@
+version: '3'
+services:
+  php_apache:
+    build:
+      context: .
+      dockerfile: Dockerfile.php-apache
+    container_name: php_apache
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "${APACHE_PORT}:${APACHE_PORT}"
+    networks:
+      - web_dev
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - web_dev
+  
+  pgsql:
+    image: postgres:13
+    container_name: pgsql
+    environment:
+      POSTGRES_DB: ${PGSQL_DATABASE}
+      POSTGRES_USER: ${PGSQL_USER}
+      POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data
+    ports:
+      - "${PGSQL_PORT}:5432"
+    networks:
+      - web_dev
+
+volumes:
+  mysql_data:
+  pgsql_data:
+
+networks:
+  web_dev:
