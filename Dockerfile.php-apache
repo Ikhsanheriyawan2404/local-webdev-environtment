@@ -1,5 +1,5 @@
 # Menggunakan image PHP dengan Apache
-FROM php:8.1-apache
+FROM php:7.4-apache
 
 # Mengatur direktori kerja
 WORKDIR /var/www/html
